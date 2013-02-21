@@ -36,7 +36,7 @@ static NSString *AMObserverTrampolineContext = @"AMObserverTrampolineContext";
     queue = [newQueue retain];
     observee = obj;
     cancellationPredicate = 0;
-    [observee addObserver:self forKeyPath:keyPath options:0 context:AMObserverTrampolineContext];   
+    [observee addObserver:self forKeyPath:keyPath options:NSKeyValueObservingOptionInitial context:AMObserverTrampolineContext];
     return self;
 }
 
@@ -119,7 +119,7 @@ static dispatch_queue_t AMObserverMutationQueueCreatingIfNecessary()
         }
         [trampoline cancelObservation];
         [observationDictionary removeObjectForKey:token];
-        
+
         // Due to a bug in the obj-c runtime, this dictionary does not get cleaned up on release when running without GC.
         if ([observationDictionary count] == 0)
             objc_setAssociatedObject(self, AMObserverMapKey, nil, OBJC_ASSOCIATION_RETAIN);
