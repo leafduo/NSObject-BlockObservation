@@ -20,7 +20,7 @@ int main(int argc, const char * argv[])
         observee.number = 1;
         @autoreleasepool {
             Observer *observer = [[Observer alloc] init];
-            /* If don't use weak reference of observer, retain cycle do occurs,
+            /* If don't use weak reference of observer, retain cycle *do* occurs,
                but the complier (as of Xcode 4.6) failed to identify it, use our brains to prevent that.
              */
             __weak __typeof(&*observer)weakObserver = observer;

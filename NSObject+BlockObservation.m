@@ -85,36 +85,26 @@ static dispatch_queue_t AMObserverMutationQueueCreatingIfNecessary()
 
 @implementation NSObject (AMBlockObservation)
 
-- (AMBlockToken *)addObserverForKeyPath:(NSString *)keyPath task:(AMBlockTask)task
+- (AMBlockToken *)observe:(id)observee forKeyPath:(NSString *)keyPath task:(AMBlockTask)task
 {
-    return [self addObserverForKeyPath:keyPath onQueue:nil task:task];
-}
-
-- (AMBlockToken *)addObserverForKeyPath:(NSString *)keyPath onQueue:(NSOperationQueue *)queue task:(AMBlockTask)task
-{
-    return [self addObserverForKeyPath:keyPath attachTo:self onQueue:queue task:task];
-}
-
-- (AMBlockToken *)addObserverForKeyPath:(NSString *)keyPath attachTo:(id)owner onQueue:(NSOperationQueue *)queue task:(AMBlockTask)task {
-    AMBlockToken *token = [[NSProcessInfo processInfo] globallyUniqueString];
-    dispatch_sync(AMObserverMutationQueueCreatingIfNecessary(), ^{
-        NSMutableDictionary *dict = objc_getAssociatedObject(owner, AMObserverMapKey);
-        if (!dict)
-        {
-            dict = [[NSMutableDictionary alloc] init];
-            objc_setAssociatedObject(owner, AMObserverMapKey, dict, OBJC_ASSOCIATION_RETAIN);
-            [dict release];
-        }
-        AMObserverTrampoline *trampoline = [[AMObserverTrampoline alloc] initObservingObject:self keyPath:keyPath onQueue:queue task:task];
-        [dict setObject:trampoline forKey:token];
-        [trampoline release];
-    });
-    return token;
+    return [self observe:observee forKeyPath:keyPath onQueue:nil task:task];
 }
 
 - (AMBlockToken *)observe:(id)observee forKeyPath:(NSString *)keyPath onQueue:(NSOperationQueue *)queue task:(AMBlockTask)task {
-    return [observee addObserverForKeyPath:keyPath attachTo:self onQueue:queue task:task];
-}
+    AMBlockToken *token = [[NSProcessInfo processInfo] globallyUniqueString];
+    dispatch_sync(AMObserverMutationQueueCreatingIfNecessary(), ^{
+        NSMutableDictionary *dict = objc_getAssociatedObject(self, AMObserverMapKey);
+        if (!dict)
+        {
+            dict = [[NSMutableDictionary alloc] init];
+            objc_setAssociatedObject(self, AMObserverMapKey, dict, OBJC_ASSOCIATION_RETAIN);
+            [dict release];
+        }
+        AMObserverTrampoline *trampoline = [[AMObserverTrampoline alloc] initObservingObject:observee keyPath:keyPath onQueue:queue task:task];
+        [dict setObject:trampoline forKey:token];
+        [trampoline release];
+    });
+    return token;}
 
 - (void)removeObserverWithBlockToken:(AMBlockToken *)token
 {
