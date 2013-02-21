@@ -13,6 +13,7 @@ typedef NSString AMBlockToken;
 typedef void (^AMBlockTask)(id obj, NSDictionary *change);
 
 @interface NSObject (AMBlockObservation)
+- (AMBlockToken *)addObserverForKeyPath:(NSString *)keyPath task:(AMBlockTask)task;
 - (AMBlockToken *)observe:(id)observee forKeyPath:(NSString *)keyPath task:(AMBlockTask)task;
 - (AMBlockToken *)observe:(id)observee forKeyPath:(NSString *)keyPath onQueue:(NSOperationQueue *)queue task:(AMBlockTask)task;
 - (void)removeObserverWithBlockToken:(AMBlockToken *)token;

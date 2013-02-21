@@ -85,6 +85,10 @@ static dispatch_queue_t AMObserverMutationQueueCreatingIfNecessary()
 
 @implementation NSObject (AMBlockObservation)
 
+- (AMBlockToken *)addObserverForKeyPath:(NSString *)keyPath task:(AMBlockTask)task {
+    return [self observe:self forKeyPath:keyPath task:task];
+}
+
 - (AMBlockToken *)observe:(id)observee forKeyPath:(NSString *)keyPath task:(AMBlockTask)task
 {
     return [self observe:observee forKeyPath:keyPath onQueue:nil task:task];
