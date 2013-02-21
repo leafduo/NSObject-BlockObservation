@@ -14,6 +14,7 @@
 @interface AMObserverTrampoline : NSObject
 {
     __weak id observee;
+    __weak id owner;
     NSString *keyPath;
     AMBlockTask task;
     NSOperationQueue *queue;
@@ -91,13 +92,17 @@ static dispatch_queue_t AMObserverMutationQueueCreatingIfNecessary()
 
 - (AMBlockToken *)addObserverForKeyPath:(NSString *)keyPath onQueue:(NSOperationQueue *)queue task:(AMBlockTask)task
 {
+    return [self addObserverForKeyPath:keyPath attachTo:self onQueue:queue task:task];
+}
+
+- (AMBlockToken *)addObserverForKeyPath:(NSString *)keyPath attachTo:(id)owner onQueue:(NSOperationQueue *)queue task:(AMBlockTask)task {
     AMBlockToken *token = [[NSProcessInfo processInfo] globallyUniqueString];
     dispatch_sync(AMObserverMutationQueueCreatingIfNecessary(), ^{
-        NSMutableDictionary *dict = objc_getAssociatedObject(self, AMObserverMapKey);
+        NSMutableDictionary *dict = objc_getAssociatedObject(owner, AMObserverMapKey);
         if (!dict)
         {
             dict = [[NSMutableDictionary alloc] init];
-            objc_setAssociatedObject(self, AMObserverMapKey, dict, OBJC_ASSOCIATION_RETAIN);
+            objc_setAssociatedObject(owner, AMObserverMapKey, dict, OBJC_ASSOCIATION_RETAIN);
             [dict release];
         }
         AMObserverTrampoline *trampoline = [[AMObserverTrampoline alloc] initObservingObject:self keyPath:keyPath onQueue:queue task:task];
@@ -105,6 +110,10 @@ static dispatch_queue_t AMObserverMutationQueueCreatingIfNecessary()
         [trampoline release];
     });
     return token;
+}
+
+- (AMBlockToken *)observe:(id)observee forKeyPath:(NSString *)keyPath onQueue:(NSOperationQueue *)queue task:(AMBlockTask)task {
+    return [observee addObserverForKeyPath:keyPath attachTo:self onQueue:queue task:task];
 }
 
 - (void)removeObserverWithBlockToken:(AMBlockToken *)token

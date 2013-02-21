@@ -11,6 +11,8 @@
 		92B25B1416D619C900A3B38A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 92B25B1316D619C900A3B38A /* main.m */; };
 		92B25B1816D619C900A3B38A /* NSObject_BlockObservation.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 92B25B1716D619C900A3B38A /* NSObject_BlockObservation.1 */; };
 		92B25B2016D61A1000A3B38A /* NSObject+BlockObservation.m in Sources */ = {isa = PBXBuildFile; fileRef = 92B25B1F16D619FD00A3B38A /* NSObject+BlockObservation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		92B25B2516D646E200A3B38A /* Observer.m in Sources */ = {isa = PBXBuildFile; fileRef = 92B25B2416D646E200A3B38A /* Observer.m */; };
+		92B25B2816D646E900A3B38A /* Observee.m in Sources */ = {isa = PBXBuildFile; fileRef = 92B25B2716D646E900A3B38A /* Observee.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -34,6 +36,10 @@
 		92B25B1716D619C900A3B38A /* NSObject_BlockObservation.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = NSObject_BlockObservation.1; sourceTree = "<group>"; };
 		92B25B1E16D619FD00A3B38A /* NSObject+BlockObservation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+BlockObservation.h"; sourceTree = SOURCE_ROOT; };
 		92B25B1F16D619FD00A3B38A /* NSObject+BlockObservation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+BlockObservation.m"; sourceTree = SOURCE_ROOT; };
+		92B25B2316D646E200A3B38A /* Observer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Observer.h; sourceTree = "<group>"; };
+		92B25B2416D646E200A3B38A /* Observer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Observer.m; sourceTree = "<group>"; };
+		92B25B2616D646E900A3B38A /* Observee.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Observee.h; sourceTree = "<group>"; };
+		92B25B2716D646E900A3B38A /* Observee.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Observee.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +83,10 @@
 			isa = PBXGroup;
 			children = (
 				92B25B1316D619C900A3B38A /* main.m */,
+				92B25B2316D646E200A3B38A /* Observer.h */,
+				92B25B2416D646E200A3B38A /* Observer.m */,
+				92B25B2616D646E900A3B38A /* Observee.h */,
+				92B25B2716D646E900A3B38A /* Observee.m */,
 				92B25B1E16D619FD00A3B38A /* NSObject+BlockObservation.h */,
 				92B25B1F16D619FD00A3B38A /* NSObject+BlockObservation.m */,
 				92B25B1716D619C900A3B38A /* NSObject_BlockObservation.1 */,
@@ -146,6 +156,8 @@
 			files = (
 				92B25B1416D619C900A3B38A /* main.m in Sources */,
 				92B25B2016D61A1000A3B38A /* NSObject+BlockObservation.m in Sources */,
+				92B25B2516D646E200A3B38A /* Observer.m in Sources */,
+				92B25B2816D646E900A3B38A /* Observee.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
