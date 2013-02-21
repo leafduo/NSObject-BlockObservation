@@ -14,7 +14,6 @@
 @interface AMObserverTrampoline : NSObject
 {
     __weak id observee;
-    __weak id owner;
     NSString *keyPath;
     AMBlockTask task;
     NSOperationQueue *queue;
@@ -108,7 +107,8 @@ static dispatch_queue_t AMObserverMutationQueueCreatingIfNecessary()
         [dict setObject:trampoline forKey:token];
         [trampoline release];
     });
-    return token;}
+    return token;
+}
 
 - (void)removeObserverWithBlockToken:(AMBlockToken *)token
 {
